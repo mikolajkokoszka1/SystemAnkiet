@@ -13,7 +13,7 @@ namespace WebApplication1.Models
         [Column(TypeName = "nvarchar(300)")]
         public string AnswerText { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Kolejność jest wymagana")]
         public int Order { get; set; }
 
         [Required]

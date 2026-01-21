@@ -17,7 +17,7 @@ namespace WebApplication1.Models
         [Column(TypeName = "nvarchar(50)")]
         public string QuestionType { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Kolejność jest wymagana")]
         public int Order { get; set; }
 
         [Required]
