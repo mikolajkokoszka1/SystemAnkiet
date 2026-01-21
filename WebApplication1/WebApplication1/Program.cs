@@ -46,4 +46,15 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
+// Inicjalizacja ról i u¿ytkowników testowych
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+    await DbInitializer.Initialize(services, userManager, roleManager);
+}
+
 app.Run();
+

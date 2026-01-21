@@ -1,0 +1,61 @@
+﻿@model WebApplication1.Models.Survey
+
+@{
+    ViewData["Title"] = "Wyniki ankiety";
+}
+
+<h1>Wyniki: @Model.Title</h1>
+
+<div class="alert alert-info">
+    Liczba odpowiedzi: <strong>@Model.Responses.Count</strong>
+</div>
+
+@foreach (var question in Model.Questions.OrderBy(q => q.Order))
+{
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>@question.Order. @question.QuestionText</h5>
+        </div>
+        <div class="card-body">
+            @if (question.QuestionType == "Text")
+            {
+                <h6>Odpowiedzi tekstowe:</h6>
+                <ul>
+                    @foreach (var detail in Model.Responses.SelectMany(r => r.ResponseDetails).Where(rd => rd.QuestionId == question.Id))
+                    {
+                        <li>@detail.TextAnswer</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Odpowiedź</th>
+                            <th>Liczba głosów</th>
+                            <th>Procent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var answer in question.Answers.OrderBy(a => a.Order))
+                        {
+                            var count = Model.Responses.SelectMany(r => r.ResponseDetails).Count(rd => rd.AnswerId == answer.Id);
+                            var percent = Model.Responses.Count > 0 ? (count * 100.0 / Model.Responses.Count) : 0;
+
+                            <tr>
+                                <td>@answer.AnswerText</td>
+                                <td>@count</td>
+                                <td>@percent.ToString("F1")%</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+}
+
+<div>
+    <a asp-controller="Survey" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary">Powrót do ankiety</a>
+</div>

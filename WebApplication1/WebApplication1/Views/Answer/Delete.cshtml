@@ -1,0 +1,28 @@
+﻿@model WebApplication1.Models.Answer
+
+@{
+    ViewData["Title"] = "Usuń odpowiedź";
+}
+
+<h1>Usuń odpowiedź</h1>
+
+<h3>Czy na pewno chcesz usunąć tę odpowiedź?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">Pytanie</dt>
+        <dd class="col-sm-9">@Model.Question?.QuestionText</dd>
+
+        <dt class="col-sm-3">Treść odpowiedzi</dt>
+        <dd class="col-sm-9">@Model.AnswerText</dd>
+
+        <dt class="col-sm-3">Kolejność</dt>
+        <dd class="col-sm-9">@Model.Order</dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Usuń" class="btn btn-danger" />
+        <a asp-action="Manage" asp-route-id="@Model.QuestionId" class="btn btn-secondary">Anuluj</a>
+    </form>
+</div>

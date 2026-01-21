@@ -1,0 +1,35 @@
+﻿@model WebApplication1.Models.Answer
+
+@{
+    ViewData["Title"] = "Dodaj odpowiedź";
+}
+
+<h1>Dodaj odpowiedź</h1>
+<p class="text-muted">Pytanie: @ViewBag.QuestionText</p>
+
+<form asp-action="Create">
+    <input type="hidden" asp-for="QuestionId" value="@ViewBag.QuestionId" />
+
+    <div class="form-group">
+        <label asp-for="AnswerText" class="control-label"></label>
+        <input asp-for="AnswerText" class="form-control" />
+        <span asp-validation-for="AnswerText" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Order" class="control-label"></label>
+        <input asp-for="Order" class="form-control" type="number" />
+        <span asp-validation-for="Order" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mt-3">
+        <input type="submit" value="Dodaj" class="btn btn-primary" />
+        <a asp-action="Manage" asp-route-id="@ViewBag.QuestionId" class="btn btn-secondary">Anuluj</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

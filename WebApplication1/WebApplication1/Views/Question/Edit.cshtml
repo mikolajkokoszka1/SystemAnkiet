@@ -1,0 +1,73 @@
+﻿@model WebApplication1.Models.Question
+
+@{
+    ViewData["Title"] = "Edytuj pytanie";
+}
+
+<h1>Edytuj pytanie</h1>
+
+<form asp-action="Edit">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="SurveyId" />
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="QuestionText" class="control-label"></label>
+        <textarea asp-for="QuestionText" class="form-control" rows="2"></textarea>
+        <span asp-validation-for="QuestionText" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="QuestionType" class="control-label"></label>
+        <select asp-for="QuestionType" class="form-control" asp-items="ViewBag.QuestionTypes"></select>
+        <span asp-validation-for="QuestionType" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Order" class="control-label"></label>
+        <input asp-for="Order" class="form-control" type="number" />
+        <span asp-validation-for="Order" class="text-danger"></span>
+    </div>
+
+    <div class="form-check">
+        <input asp-for="IsRequired" class="form-check-input" />
+        <label asp-for="IsRequired" class="form-check-label"></label>
+    </div>
+
+    <div class="form-group mt-3">
+        <input type="submit" value="Zapisz zmiany" class="btn btn-primary" />
+        <a asp-action="Manage" asp-route-id="@Model.SurveyId" class="btn btn-secondary">Anuluj</a>
+    </div>
+</form>
+
+<hr />
+
+@if (Model.Answers != null && Model.Answers.Any())
+{
+    <h3>Odpowiedzi do tego pytania (@Model.Answers.Count)</h3>
+    <ul class="list-group">
+        @foreach (var answer in Model.Answers.OrderBy(a => a.Order))
+        {
+            <li class="list-group-item">
+                <strong>@answer.Order.</strong> @answer.AnswerText
+            </li>
+        }
+    </ul>
+    <p class="mt-2">
+        <a asp-controller="Answer" asp-action="Manage" asp-route-id="@Model.Id" class="btn btn-info btn-sm">Zarządzaj odpowiedziami</a>
+    </p>
+}
+else
+{
+    <div class="alert alert-warning">
+        To pytanie nie ma jeszcze odpowiedzi.
+        <a asp-controller="Answer" asp-action="Manage" asp-route-id="@Model.Id">Dodaj odpowiedzi</a>
+    </div>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,66 @@
+﻿@model IEnumerable<WebApplication1.Models.Question>
+
+@{
+    ViewData["Title"] = "Zarządzanie pytaniami";
+}
+
+<h1>Pytania w ankiecie: @ViewBag.SurveyTitle</h1>
+
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create" asp-route-surveyId="@ViewBag.SurveyId" class="btn btn-primary">Dodaj pytanie</a>
+    </p>
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Kolejność</th>
+            <th>Treść pytania</th>
+            <th>Typ</th>
+            <th>Wymagane</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Order</td>
+                <td>@item.QuestionText</td>
+                <td>
+                    @switch (item.QuestionType)
+                    {
+                        case "SingleChoice":
+                            <span>Jednokrotny wybór</span>
+                            break;
+                        case "MultipleChoice":
+
+                            <span>Wielokrotny wybór</span>
+                            break;
+                        case "Text":
+
+                            <span>Pytanie otwarte</span>
+                            break;
+                    }
+                </td>
+                <td>@(item.IsRequired ? "Tak" : "Nie")</td>
+                <td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edytuj</a>
+                        <a asp-controller="Answer" asp-action="Manage" asp-route-id="@item.Id" class="btn btn-sm btn-info">Odpowiedzi</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Usuń</a>
+                    }
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-controller="Survey" asp-action="Details" asp-route-id="@ViewBag.SurveyId" class="btn btn-secondary">Powrót do ankiety</a>
+</div>

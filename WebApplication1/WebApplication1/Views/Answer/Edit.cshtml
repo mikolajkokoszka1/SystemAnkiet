@@ -1,0 +1,35 @@
+﻿@model WebApplication1.Models.Answer
+
+@{
+    ViewData["Title"] = "Edytuj odpowiedź";
+}
+
+<h1>Edytuj odpowiedź</h1>
+
+<form asp-action="Edit">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="QuestionId" />
+
+    <div class="form-group">
+        <label asp-for="AnswerText" class="control-label"></label>
+        <input asp-for="AnswerText" class="form-control" />
+        <span asp-validation-for="AnswerText" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Order" class="control-label"></label>
+        <input asp-for="Order" class="form-control" type="number" />
+        <span asp-validation-for="Order" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mt-3">
+        <input type="submit" value="Zapisz" class="btn btn-primary" />
+        <a asp-action="Manage" asp-route-id="@Model.QuestionId" class="btn btn-secondary">Anuluj</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

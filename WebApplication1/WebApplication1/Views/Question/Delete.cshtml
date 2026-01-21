@@ -1,0 +1,54 @@
+﻿@model WebApplication1.Models.Question
+
+@{
+    ViewData["Title"] = "Usuń pytanie";
+}
+
+<h1>Usuń pytanie</h1>
+
+<h3>Czy na pewno chcesz usunąć to pytanie?</h3>
+
+<div class="alert alert-danger">
+    <strong>Uwaga!</strong> Usunięcie pytania spowoduje również usunięcie wszystkich odpowiedzi i danych użytkowników związanych z tym pytaniem!
+</div>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">Ankieta</dt>
+        <dd class="col-sm-9">@Model.Survey?.Title</dd>
+
+        <dt class="col-sm-3">Treść pytania</dt>
+        <dd class="col-sm-9">@Model.QuestionText</dd>
+
+        <dt class="col-sm-3">Typ</dt>
+        <dd class="col-sm-9">
+            @switch (Model.QuestionType)
+            {
+                case "SingleChoice":
+                    <span>Jednokrotny wybór</span>
+                    break;
+                case "MultipleChoice":
+
+                    <span>Wielokrotny wybór</span>
+                    break;
+                case "Text":
+
+                    <span>Pytanie otwarte</span>
+                    break;
+            }
+        </dd>
+
+        <dt class="col-sm-3">Kolejność</dt>
+        <dd class="col-sm-9">@Model.Order</dd>
+
+        <dt class="col-sm-3">Wymagane</dt>
+        <dd class="col-sm-9">@(Model.IsRequired ? "Tak" : "Nie")</dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Usuń pytanie" class="btn btn-danger" />
+        <a asp-action="Manage" asp-route-id="@Model.SurveyId" class="btn btn-secondary">Anuluj</a>
+    </form>
+</div>

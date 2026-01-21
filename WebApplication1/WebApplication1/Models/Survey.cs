@@ -21,16 +21,6 @@ namespace WebApplication1.Models
         [Column(TypeName = "datetime2")]
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
-        [Column(TypeName = "datetime2")]
-        public DateTime? EndDate { get; set; }
-
-        [Required]
-        public bool IsActive { get; set; } = true;
-
-        public bool AllowAnonymous { get; set; } = false;
-
-        public bool IsPublic { get; set; } = true;
-
         [Column(TypeName = "nvarchar(450)")]
         public string? CreatorId { get; set; }
 

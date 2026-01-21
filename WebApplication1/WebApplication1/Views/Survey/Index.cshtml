@@ -1,0 +1,76 @@
+﻿@using System.Security.Claims
+@model IEnumerable<WebApplication1.Models.Survey>
+
+@{
+    ViewData["Title"] = "Lista ankiet";
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Błąd:</strong> @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<h1>Lista ankiet</h1>
+
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Utwórz nową ankietę</a>
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tytuł</th>
+            <th>Data utworzenia</th>
+            <th>Akcje</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Title</td>
+                <td>@item.CreatedDate.ToString("dd.MM.yyyy")</td>
+                <td>
+                    @if (User.Identity != null && User.Identity.IsAuthenticated)
+                    {
+                        var hasResponded = false;
+                        var userId = User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier);
+                        hasResponded = item.Responses?.Any(r => r.UserId == userId) ?? false;
+
+                        if (hasResponded)
+                        {
+                            <span class="badge bg-success">✓ Wypełniona</span>
+                        }
+                        else
+                        {
+                            <a asp-controller="Response" asp-action="Fill" asp-route-id="@item.Id" class="btn btn-success btn-sm">Wypełnij</a>
+                        }
+                    }
+
+
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Szczegóły</a>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Usuń</a>
+                    }
+                    
+                    <a asp-controller="Response" asp-action="Results" asp-route-id="@item.Id" class="btn btn-secondary btn-sm">Wyniki</a>
+
+                    
+                </td>
+
+
+            </tr>
+        }
+    </tbody>
+</table>
