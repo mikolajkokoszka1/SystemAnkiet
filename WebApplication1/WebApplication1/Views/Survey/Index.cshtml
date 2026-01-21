@@ -28,8 +28,11 @@
             <th>ID</th>
             <th>Tytuł</th>
             <th>Data utworzenia</th>
+            @if (User.IsInRole("Admin"))
+            {
+                <th>Status</th>
+            }
             <th>Akcje</th>
-
         </tr>
     </thead>
     <tbody>
@@ -39,6 +42,24 @@
                 <td>@item.Id</td>
                 <td>@item.Title</td>
                 <td>@item.CreatedDate.ToString("dd.MM.yyyy")</td>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        @{
+                            var isComplete = item.Questions != null && item.Questions.Any() && item.Questions.All(q => q.Answers != null && q.Answers.Count >= 2);
+                        }
+                        @if (!isComplete)
+                        {
+                            <span style="color: red; font-weight: bold;">Niedokończona</span>
+                        }
+                        else
+                        {
+                            <span style="color: green; font-weight: bold;">Gotowa</span>
+                        }
+                    </td>
+                }
+
                 <td>
                     @if (User.Identity != null && User.Identity.IsAuthenticated)
                     {
@@ -56,20 +77,15 @@
                         }
                     }
 
-
                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Szczegóły</a>
 
                     @if (User.IsInRole("Admin"))
                     {
                         <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Usuń</a>
                     }
-                    
+
                     <a asp-controller="Response" asp-action="Results" asp-route-id="@item.Id" class="btn btn-secondary btn-sm">Wyniki</a>
-
-                    
                 </td>
-
-
             </tr>
         }
     </tbody>

@@ -7,7 +7,6 @@ namespace WebApplication1.Data
     {
         public static async Task Initialize(IServiceProvider serviceProvider, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            // Utwórz role
             string[] roleNames = { "Admin", "User" };
 
             foreach (var roleName in roleNames)
@@ -19,7 +18,6 @@ namespace WebApplication1.Data
                 }
             }
 
-            // Utwórz administratora
             var adminEmail = "admin@ankiety.pl";
             var adminPassword = "Admin123!";
 
@@ -40,7 +38,6 @@ namespace WebApplication1.Data
                 }
             }
 
-            // Utwórz zwykłego użytkownika
             var userEmail = "user@ankiety.pl";
             var userPassword = "User123!";
 

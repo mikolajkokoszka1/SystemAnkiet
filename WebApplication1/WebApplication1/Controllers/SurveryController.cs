@@ -20,11 +20,19 @@ namespace WebApplication1.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            var surveys = await _context.Surveys.Include(s => s.Responses).ToListAsync();
+            var surveysQuery = _context.Surveys.Include(s => s.Responses).Include(s => s.Questions).ThenInclude(q => q.Answers).AsQueryable();
+
+            if (!User.IsInRole("Admin"))
+            {
+                surveysQuery = surveysQuery.Where(s =>
+                    s.Questions.Any() && s.Questions.All(q => q.Answers.Count >= 2)
+                );
+            }
+
+            var surveys = await surveysQuery.ToListAsync();
 
             return View(surveys);
         }
-
 
         [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
@@ -179,6 +187,5 @@ namespace WebApplication1.Controllers
         {
             return _context.Surveys.Any(e => e.Id == id);
         }
-
     }
 }
