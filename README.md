@@ -1,4 +1,5 @@
 # Dokumentacja Projektu Systemu Ankiet
+### Mikołaj Kokoszka
 
 ## 1. Opis Projektu
 System Ankiet to aplikacja internetowa stworzona w technologii ASP.NET Core MVC, służąca do tworzenia, zarządzania i wypełniania ankiet. Projekt został zaprojektowany zgodnie z wzorcem Model-View-Controller.
