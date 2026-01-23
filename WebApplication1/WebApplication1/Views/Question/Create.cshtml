@@ -10,26 +10,26 @@
     <input type="hidden" asp-for="SurveyId" value="@ViewBag.SurveyId" />
 
     <div class="form-group">
-        <label asp-for="QuestionText" class="control-label"></label>
+        <label asp-for="QuestionText" class="control-label">Treść pytania</label>
         <textarea asp-for="QuestionText" class="form-control" rows="2"></textarea>
         <span asp-validation-for="QuestionText" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="QuestionType" class="control-label"></label>
+        <label asp-for="QuestionType" class="control-label">Typ pytania</label>
         <select asp-for="QuestionType" class="form-control" asp-items="ViewBag.QuestionTypes"></select>
         <span asp-validation-for="QuestionType" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="Order" class="control-label"></label>
+        <label asp-for="Order" class="control-label">Kolejność</label>
         <input asp-for="Order" class="form-control" type="number" />
         <span asp-validation-for="Order" class="text-danger"></span>
     </div>
 
     <div class="form-check">
         <input asp-for="IsRequired" class="form-check-input" />
-        <label asp-for="IsRequired" class="form-check-label"></label>
+        <label asp-for="IsRequired" class="form-check-label">Odpowiedź wymagana?</label>
     </div>
 
     <div class="form-group mt-3">

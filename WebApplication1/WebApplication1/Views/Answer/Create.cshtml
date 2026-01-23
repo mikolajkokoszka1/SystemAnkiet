@@ -11,13 +11,13 @@
     <input type="hidden" asp-for="QuestionId" value="@ViewBag.QuestionId" />
 
     <div class="form-group">
-        <label asp-for="AnswerText" class="control-label"></label>
+        <label asp-for="AnswerText" class="control-label">Treść odpowiedzi</label>
         <input asp-for="AnswerText" class="form-control" />
         <span asp-validation-for="AnswerText" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="Order" class="control-label"></label>
+        <label asp-for="Order" class="control-label">Kolejność</label>
         <input asp-for="Order" class="form-control" type="number" />
         <span asp-validation-for="Order" class="text-danger"></span>
     </div>
