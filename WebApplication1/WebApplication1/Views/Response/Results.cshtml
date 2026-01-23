@@ -38,10 +38,16 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @{
+                            var totalAnswersForQuestion = Model.Responses
+                                .SelectMany(r => r.ResponseDetails)
+                                .Count(rd => rd.QuestionId == question.Id);
+                        }
+
                         @foreach (var answer in question.Answers.OrderBy(a => a.Order))
                         {
                             var count = Model.Responses.SelectMany(r => r.ResponseDetails).Count(rd => rd.AnswerId == answer.Id);
-                            var percent = Model.Responses.Count > 0 ? (count * 100.0 / Model.Responses.Count) : 0;
+                            var percent = totalAnswersForQuestion > 0 ? (count * 100.0 / totalAnswersForQuestion) : 0;
 
                             <tr>
                                 <td>@answer.AnswerText</td>

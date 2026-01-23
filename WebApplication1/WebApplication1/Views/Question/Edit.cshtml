@@ -41,31 +41,6 @@
     </div>
 </form>
 
-<hr />
-
-@if (Model.Answers != null && Model.Answers.Any())
-{
-    <h3>Odpowiedzi do tego pytania (@Model.Answers.Count)</h3>
-    <ul class="list-group">
-        @foreach (var answer in Model.Answers.OrderBy(a => a.Order))
-        {
-            <li class="list-group-item">
-                <strong>@answer.Order.</strong> @answer.AnswerText
-            </li>
-        }
-    </ul>
-    <p class="mt-2">
-        <a asp-controller="Answer" asp-action="Manage" asp-route-id="@Model.Id" class="btn btn-info btn-sm">Zarządzaj odpowiedziami</a>
-    </p>
-}
-else
-{
-    <div class="alert alert-warning">
-        To pytanie nie ma jeszcze odpowiedzi.
-        <a asp-controller="Answer" asp-action="Manage" asp-route-id="@Model.Id">Dodaj odpowiedzi</a>
-    </div>
-}
-
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
